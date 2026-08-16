@@ -1,0 +1,15 @@
+{
+  "name": "Avaliação de Chamados - Engenharia Clínica",
+  "short_name": "Avaliação",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0e5f42",
+  "theme_color": "#0f6b4f",
+  "icons": [
+    {
+      "src": "img/icone_avaliacao_chamados.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
