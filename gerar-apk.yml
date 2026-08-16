@@ -1,0 +1,94 @@
+name: Gerar APK - Avaliacao de Chamados
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'saida/**'
+
+permissions:
+  contents: write
+
+jobs:
+  gerar-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.9.0'
+
+      - name: Preparar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Preparar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar Android API 36
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Instalar Cordova
+        run: npm install -g cordova@13.0.0
+
+      - name: Instalar dependencias e plugins
+        run: npm install
+
+      - name: Recriar Android e plugins
+        shell: bash
+        run: |
+          rm -rf platforms plugins
+          cordova platform add android@15.0.0
+          cordova prepare android
+
+      - name: Gerar APK
+        run: cordova build android --debug
+
+      - name: Preparar APK
+        shell: bash
+        run: |
+          mkdir -p saida
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk saida/Avaliacao_de_Chamados.apk
+          ls -lh saida/Avaliacao_de_Chamados.apk
+
+      - name: Salvar APK na pasta saida da main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f saida/Avaliacao_de_Chamados.apk
+          git diff --cached --quiet || git commit -m "Atualizar APK da Avaliacao de Chamados"
+          git push
+
+      - name: Publicar APK como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: Avaliacao-de-Chamados-APK
+          path: saida/Avaliacao_de_Chamados.apk
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+      - name: Publicar estrutura Cordova gerada
+        uses: actions/upload-artifact@v4
+        with:
+          name: Estrutura-Cordova-Gerada
+          path: |
+            plugins/
+            platforms/android/
+            saida/Avaliacao_de_Chamados.apk
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
