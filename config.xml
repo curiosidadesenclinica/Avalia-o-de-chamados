@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget id="com.curiosidadesenclinica.avaliacaodechamados"
+        version="1.0.0"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+    <name>Avaliação de Chamados</name>
+
+    <description>
+        Aplicativo de Avaliação de Chamados da Engenharia Clínica
+    </description>
+
+    <author email="curiosidadesdaengclinica@gmail.com">
+        Engenharia Clínica
+    </author>
+
+    <content src="index.html" />
+
+    <access origin="*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="http://*/*" />
+
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+
+    <preference name="Fullscreen" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="AndroidXEnabled" value="true" />
+    <preference name="android-targetSdkVersion" value="36" />
+    <preference name="android-compileSdkVersion" value="36" />
+
+    <icon src="resources/icon.png" />
+
+    <platform name="android">
+        <icon src="resources/icon.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#0e5f42" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/icon.png" />
+        <preference name="AndroidWindowSplashScreenAnimationDuration" value="500" />
+    </platform>
+</widget>

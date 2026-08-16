@@ -1,0 +1,2 @@
+Extraia este ZIP e envie o CONTEÚDO descompactado para o repositório do aplicativo Avaliação de Chamados.
+Não envie este ZIP como arquivo único dentro do repositório.
